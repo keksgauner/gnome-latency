@@ -9,3 +9,37 @@ updates:
     directory: "/" # Ruta donde está el package.json
     schedule:
       interval: "weekly" # Puede ser daily, weekly o monthly
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "security"
+    ignore:
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+
+  # Dependencias del sistema (si usas scripts de compilación en GitHub Actions)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "github-actions"
+      - "ci"
+
+  # Dependencias de Python (solo si usas scripts Python en tu build o test)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "pip"
+    labels:
+      - "dependencies"
+    ignore:
+      - dependency-name: "requests"
+        update-types: ["version-update:semver-major"]
