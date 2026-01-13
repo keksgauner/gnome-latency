@@ -11,5 +11,6 @@
     "47",
     "48",
     "49"
-  ]
+  ],
+  "settings-schema": "org.gnome.shell.extensions.latency"
 }
