@@ -12,8 +12,30 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # SPDX-License-Identifier: GPL-2.0-or-later
 
-
 IP_WAN="8.8.8.8"
+RESOLVE_DOMAIN="google.com"
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --ip)
+      [ "$#" -ge 1 ] || fail "Missing value for $0"
+      IP_WAN="$2"
+      shift 2
+      ;;
+    --domain)
+      [ "$#" -ge 1 ] || fail "Missing value for $0"
+      RESOLVE_DOMAIN="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -* )
+      fail "Unknown option: $1"
+      ;;
+  esac
+done
 
 PING_WAN=$(ping -4 -c 1 -W 5 ${IP_WAN}|head -n 2|tail -n 1|rev|cut -f 2 -d " " |rev|cut -f 2 -d "=")
 
@@ -21,7 +43,7 @@ if [ "${PING_WAN}" = "" ]; then
     RESULT="[ No internet connection ]"
 else
     # Check DNS
-    if [ "$(host -R3 -4 -t A google.com |grep address)" = "" ];then
+    if [ "$(host -R3 -4 -t A ${RESOLVE_DOMAIN} |grep address)" = "" ];then
         RESULT="[ DNS Problem ]"
     else
   	    RESULT="${PING_WAN}ms"
