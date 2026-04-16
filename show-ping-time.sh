@@ -15,15 +15,20 @@
 IP_WAN="8.8.8.8"
 RESOLVE_DOMAIN="google.com"
 
+fail() {
+  echo "Error: $*" >&2
+  exit 1
+}
+
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --ip)
-      [ "$#" -ge 1 ] || fail "Missing value for $0"
+      [ "$#" -ge 2 ] && [ -n "$2" ] || fail "Missing value for $1"
       IP_WAN="$2"
       shift 2
       ;;
     --domain)
-      [ "$#" -ge 1 ] || fail "Missing value for $0"
+      [ "$#" -ge 2 ] && [ -n "$2" ] || fail "Missing value for $1"
       RESOLVE_DOMAIN="$2"
       shift 2
       ;;
@@ -33,6 +38,9 @@ while [ "$#" -gt 0 ]; do
       ;;
     -* )
       fail "Unknown option: $1"
+      ;;
+    *)
+      fail "Unexpected argument: $1"
       ;;
   esac
 done

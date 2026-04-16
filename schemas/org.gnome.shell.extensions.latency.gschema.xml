@@ -16,7 +16,7 @@
     <key name="latency-resolve-domain" type="s">
       <default>"google.com"</default>
       <summary>Resolve Domain</summary>
-      <description>The Domain that got resolved to detect dns fails</description>
+      <description>The domain to resolve to detect DNS failures</description>
     </key>
   </schema>
 </schemalist>
